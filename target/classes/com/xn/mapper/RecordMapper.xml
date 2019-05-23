@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xn.mapper.RecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.xn.entity.Record">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="operate_type" property="operateType" jdbcType="VARCHAR"/>
+        <result column="operate_time" property="operateTime" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="design_name" property="designName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,operate_type,operate_time,username,design_name
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_record where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_record
+        <where>
+            1=1
+            <if test="designName != null and design != ''">
+                and design_name like "%"#{designName}"%"
+            </if>
+            <if test="username != null and username != ''">
+               and username = #{username,jdbcType=VARCHAR}
+            </if>
+            <if test="operateType != null and operateType != ''">
+               and operate_type = #{operateType,jdbcType=VARCHAR}
+            </if>
+            <if test="operateTime != null and operateTime != ''">
+               and operate_time = #{operateTime,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into t_record(id,operate_type,operate_time,username,design_name) values(
+        #{id,jdbcType=INTEGER},
+        #{operateType,jdbcType=VARCHAR},
+        #{operateTime,jdbcType=VARCHAR},
+        #{username,jdbcType=VARCHAR},
+        #{designName,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="deleteByPrimaryKey">
+        delete from t_record where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.xn.entity.Admin">
+        update t_admin set
+        username=#{username,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.xn.entity.Record">
+        update t_record
+        <set>
+            <if test="operateType != null">
+                operate_type = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="operateTime != null">
+                operate_time = #{operateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

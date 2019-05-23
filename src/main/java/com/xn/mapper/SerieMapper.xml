@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xn.mapper.SerieMapper">
+    <resultMap id="BaseResultMap" type="com.xn.entity.Serie">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="serie_name" property="serieName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,serie_name
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_serie where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_serie
+        <where>
+            <if test="serieName !=null">
+                serie_name like"%"#{serieName}"%"
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findSerie" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_serie
+    </select>
+    
+    <insert id="insert">
+        insert into t_serie(serie_name)values
+        (
+        #{serieName,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="deleteByPrimaryKey">
+        delete from t_serie where id=#{id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.xn.entity.Serie">
+        update t_serie set
+        serie_name=#{serieName,jdbcType=VARCHAR},
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.xn.entity.Serie">
+        update t_serie
+        <set>
+            <if test="serieName != null">
+                serie_name = #{serieName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

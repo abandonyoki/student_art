@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xn.mapper.ProfessionMapper">
+    <resultMap id="BaseResultMap" type="com.xn.entity.Profession">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="profession_name" property="professionName" jdbcType="VARCHAR"/>
+        <result column="serie_id" property="serieId" jdbcType="VARCHAR"/>
+        <result column="serieName" property="serieName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,profession_name,serie_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_profession where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select p.*,e.`serie_name` serieName from t_profession p
+        left join t_serie e on p.`serie_id` = e.`id`
+        <where>
+            <if test="professionName != null">
+                profession_name like "%"#{professionName}"%"
+            </if>
+            <if test="serieId != null">
+                and s.serie_id = #{serieId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findProfession" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_profession
+    </select>
+
+    <insert id="insert" parameterType="com.xn.entity.Profession">
+        insert into t_profession(profession_name,serie_id)values
+        (
+        #{professionName,jdbcType=VARCHAR},
+        #{serieId,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="integer">
+        delete from t_profession where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.xn.entity.Profession">
+        update t_profession set
+        profession_name=#{professionName,jdbcType=VARCHAR},
+        serie_id = #{serieId,jdbcType=VARCHAR}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.xn.entity.Profession">
+        update t_profession
+        <set>
+            <if test="professionName != null">
+                profession_name = #{professionName,jdbcType=VARCHAR},
+            </if>
+            <if test="serieId != null">
+                serie_id = #{serieId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xn.mapper.DesignMapper">
+    <resultMap id="BaseResultMap" type="com.xn.entity.Design">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="design_name" property="designName" jdbcType="VARCHAR"/>
+        <result column="design_introduce" property="designIntroduce" jdbcType="VARCHAR"/>
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="stu_id" property="stuId" jdbcType="INTEGER"/>
+        <result column="stuName" property="stuName" jdbcType="VARCHAR"/>
+        <result column="course_id" property="courseId" jdbcType="INTEGER"/>
+        <result column="course_name" property="courseName" jdbcType="VARCHAR"/>
+        <result column="class_id" property="classId" jdbcType="INTEGER"/>
+        <result column="className" property="className" jdbcType="VARCHAR"/>
+        <result column="profession_id" property="professionId" jdbcType="INTEGER"/>
+        <result column="professionName" property="professionName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="advice" property="advice" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,design_name,design_introduce,img_url,stu_id,course_id,class_id,profession_id,create_time,advice,status
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_design where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findDesignList" resultMap="BaseResultMap">
+        select d.*,s.stu_name stuName,c.course_name courseName,p.profession_name professionName
+        from t_design d
+        left join t_student s on s.id = d.stu_id
+        left join t_course c on c.id = d.course_id
+        left join t_profession p on p.id = d.profession_id
+        where d.status = 1
+    </select>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select d.*,s.stu_name stuName,o.course_name courseName,c.class_name className,p.profession_name professionName from
+        t_design d
+        left join t_student s on s.id = d.stu_id
+        left join t_course o on o.id = d.course_id
+        left join t_class c on c.id = d.class_id
+        left join t_profession p on p.id = d.profession_id
+        <where>
+            <if test="designName != null">
+                and d.design_name like concat('%',#{designName},'%')
+            </if>
+            <if test="stuId != null and stuId != 0">
+                and d.stu_id = #{stuId,jdbcType=INTEGER}
+            </if>
+            <if test="courseId != null and courseId != 0">
+                and d.course_id = #{courseId,jdbcType=INTEGER}
+            </if>
+            <if test="classId != null and classId != 0">
+                and d.class_id = #{classId,jdbcType=INTEGER}
+            </if>
+            <if test="professionId != null and professionId != 0">
+                and d.profession_id = #{professionId,jdbcType=INTEGER}
+            </if>
+            <if test="status != 'null' and status != null">
+                and d.status = #{status,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="com.xn.entity.Design">
+        update t_design set
+        design_name=#{designName,jdbcType=VARCHAR},
+        design_introduce=#{designIntroduce,jdbcType=VARCHAR},
+        img_url=#{imgUrl,jdbcType=VARCHAR},
+        stu_id =#{stuId,jdbcType=INTEGER},
+        course_id=#{courseId,jdbcType=INTEGER},
+        class_id = #{classId,jdbcType=INTEGER},
+        profession_id = #{professionId,jdbcType=INTEGER},
+        create_time=#{createTime,jdbcType=VARCHAR},
+        advice=#{advice,jdbcType=VARCHAR},
+        status=#{status,jdbcType=VARCHAR},
+        where id=#{id,jdbcType=INTEGER},
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.xn.entity.Design">
+        update t_design
+        <set>
+            <if test="designName != null">
+                design_name = #{designName,jdbcType=VARCHAR},
+            </if>
+            <if test="designIntroduce != null">
+                design_introduce = #{designIntroduce,jdbcType=VARCHAR},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="stuId != null">
+                stu_id = #{stuId,jdbcType=INTEGER},
+            </if>
+            <if test="courseId != null">
+                course_id=#{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId,jdbcType=INTEGER},
+            </if>
+            <if test="professionId != null">
+                profession_id = #{professionId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="advice != null">
+                advice = #{advice,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <insert id="insert" parameterType="com.xn.entity.Design">
+        insert into t_design(id,design_name,design_introduce,img_url,stu_id,class_id,,profession_id
+        ,create_time,advice,status)values
+        (
+        #{id,jdbcType=INTEGER},
+        #{designName,jdbcType=VARCHAR},
+        #{designIntroduce,jdbcType=VARCHAR},
+        #{imgUrl,jdbcType=VARCHAR},
+        #{stuId,jdbcType=INTEGER},
+        #{courseId,jdbcType=INTEGER},
+        #{classId,jdbcType=INTEGER},
+        #{professionId,jdbcType=INTEGER},
+        #{createTime,jdbcType=VARCHAR},
+        #{advice,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR}
+       )
+    </insert>
+    
+    <insert id="insertSelective" parameterType="com.xn.entity.Design">
+        insert into t_design
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="designName != null">
+                design_name,
+            </if>
+            <if test="designIntroduce != null" >
+                design_introduce,
+            </if>
+            <if test="imgUrl != null" >
+                img_url,
+            </if>
+            <if test="stuId != null" >
+                stu_id,
+            </if>
+            <if test="courseId != null">
+                course_id,
+            </if>
+            <if test="classId != null" >
+                class_id,
+            </if>
+            <if test="professionId != null" >
+                profession_id,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="advice != null" >
+                advice,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="designName != null">
+                 #{designName,jdbcType=VARCHAR},
+            </if>
+            <if test="designIntroduce != null">
+                #{designIntroduce,jdbcType=VARCHAR},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="stuId != null">
+               #{stuId,jdbcType=INTEGER},
+            </if>
+            <if test="courseId != null">
+                #{courseId,jdbcType=INTEGER},
+            </if>
+            <if test="classId != null">
+                #{classId,jdbcType=INTEGER},
+            </if>
+            <if test="professionId != null">
+                #{professionId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="advice != null">
+                #{advice,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="integer">
+        delete from t_design where id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>
