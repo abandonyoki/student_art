@@ -66,20 +66,9 @@ public class NoticeController {
         }
         Student student = new Student(classId,professionId,serieId);
         Page page = new Page();
-       /* page.setCurrentPage(1);
-        page.setPageSize(10);
-        page.setPages(1);
-        page.setTotal(0);
-        page.setRows(null);*/
         page.setSearchParam(student);
         page = studentController.findStudentPage(page,student);
         String[] recivers = new String[page.getTotal()];
-        /*for (Object s:page.getRows()) {
-            student = (Student)s;
-            for(int i = 0;i<page.getTotal();i++){
-                recivers[i] = student.getMailBox();
-            }
-        }*/
         Object[] arrayList = page.getRows().toArray();
         for(int i = 0;i<page.getTotal();i++){
             recivers[i]= ((Student)arrayList[i]).getMailBox();

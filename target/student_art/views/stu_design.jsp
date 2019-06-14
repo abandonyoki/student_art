@@ -124,9 +124,9 @@
 
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label" >图片</label>
+						<label class="col-sm-4 control-label" >作品</label>
 						<div class="col-sm-6">
-							<span style="color: #2a91d8" >请选择10M之内的图片!</span>
+							<span style="color: #2a91d8" >请选择50M之内的文件!</span>
 							<input id="file-0c"  type="file" name="files" data-show-upload="false" data-show-caption="true">
 						</div>
 

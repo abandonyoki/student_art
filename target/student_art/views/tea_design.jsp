@@ -46,6 +46,15 @@ body {
 						<div class="col-md-2">
 							<input class="form-control" type="text" name="designName">
 						</div>
+						<label class="col-sm-1 control-label" for="status">审核</label>
+						<div class="col-sm-2">
+							<select class="selectpicker" name="status" >
+								<option value="null">--请选择--</option>
+								<option value="0">等待审核</option>
+								<option value="1">审核通过</option>
+								<option value="2">审核拒绝</option>
+							</select>
+						</div>
 						<div class="col-sm-6" align="left">
 							<button type="button" class="btn btn-md btn-success" onclick = "operation.searchForm()">
 								<span class="glyphicon glyphicon-search"></span>查询

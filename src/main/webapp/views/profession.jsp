@@ -215,7 +215,7 @@ var operation={
 			bootbox.confirm({
 				size:"small",
 				title:"提示",
-				message:"确认删除这条数据吗？",
+				message:"这将会删除相关信息，确认删除这条数据吗？",
 				callback:function(result){
 					if(result){
 						$.post("profession/deleteProfession", {id:rows[0].id} ,function(data) {

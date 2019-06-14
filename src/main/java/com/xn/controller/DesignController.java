@@ -105,7 +105,8 @@ public class DesignController {
                     returnMap.put("showInfo","文件过大");
                     return returnMap;
                 }
-                String filePath = request.getSession().getServletContext().getRealPath("/")+"upload/"+files[0].getOriginalFilename();
+                String filePath = request.getSession().getServletContext().
+                        getRealPath("/")+"upload/"+files[0].getOriginalFilename();
                 String savePath = "upload/"+files[0].getOriginalFilename();
                 design.setImgUrl(savePath);
                 files[0].transferTo(new File(filePath));

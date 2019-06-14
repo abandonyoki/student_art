@@ -39,9 +39,10 @@ ul.photopile li a img { border: 0 none;}
 	<ul class="photopile"  >
 		<c:forEach var="obj" items="${list}">
 			<li>
-						<a href="${obj.imgUrl }" onclick="getPic(${obj.id })" >
-							<img src="${obj.imgUrl }" alt="${obj.stuName }-${obj.designName}-${obj.courseName}"  title="${obj.stuName }-${obj.designName}-${obj.courseName}" style="width:180px; height:223px;font-size:30px" />
-						</a>
+				<a href="${obj.imgUrl }" onclick="getPic(${obj.id })" >
+					<img src="${obj.imgUrl }" alt="${obj.stuName }-${obj.designName}-${obj.courseName}"
+						 title="${obj.stuName }-${obj.designName}-${obj.courseName}" style="width:180px; height:223px;font-size:30px" />
+				</a>
 
 			</li>
 		</c:forEach>

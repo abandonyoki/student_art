@@ -143,12 +143,13 @@ public class PaginationInterceptor implements Interceptor {
 		return Plugin.wrap(target, this);
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * 获取插件的初始化参数
 	 * @see
 	 * org.apache.ibatis.plugin.Interceptor#setProperties(java.util.Properties)
 	 */
+
 	@Override
 	public void setProperties(Properties properties) {
 		logger.trace("PaginationInterceptor setProperties properties = " + properties);
@@ -159,7 +160,7 @@ public class PaginationInterceptor implements Interceptor {
 	 *
 	 * @param parameter
 	 * @return
-	 * @since 2017-8-1
+	 * @since
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Page seekPagination(Object parameter) {

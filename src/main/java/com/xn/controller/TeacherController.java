@@ -71,6 +71,7 @@ public class TeacherController {
     @RequestMapping(value = "/deleteTeacher")
     public Map<String,Object> deleteStudent(int id){
         Map returnMap = new HashMap<String,Object>();
+
         int i = teacherService.deleteTeacher(id);
         if(i == 0){
             returnMap.put("showInfo","删除失败");

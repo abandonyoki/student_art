@@ -4,6 +4,8 @@ import com.xn.entity.Class;
 import com.xn.pojo.Page;
 import com.xn.service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -70,13 +72,13 @@ public class ClassController {
     @RequestMapping(value = "/deleteClass")
     public Map<String,Object> deleteClass(int id){
         Map returnMap = new HashMap<String,Object>();
-        int i = classService.deleteClass(id);
-        if(i == 0){
-            returnMap.put("showInfo","删除失败");
-        }
-        if(i == 1){
-            returnMap.put("showInfo","删除成功");
-        }
+            int i = classService.deleteClass(id);
+            if(i == 0){
+                returnMap.put("showInfo","删除失败");
+            }
+            if(i == 1){
+                returnMap.put("showInfo","删除成功");
+            }
         return returnMap;
     }
 }

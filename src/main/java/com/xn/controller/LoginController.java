@@ -41,15 +41,12 @@ public class LoginController {
             if(admin.getPassword().equals(user.getPassword())){
                 user.setId(admin.getId());
                 session.setAttribute("user",user);
-                //登陆成功
-                map.put("isFlag",0);
+                map.put("isFlag",0); //登陆成功
             }else{
-                //密码错误
-                map.put("isFlag",1);
+                map.put("isFlag",1);//密码错误
             }
         }else{
-            //角色选择错误
-            map.put("isFlag",2);
+            map.put("isFlag",2);//用户名选择错误
         }
     }
         if("2".equals((user.getRole()))){

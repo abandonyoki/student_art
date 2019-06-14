@@ -122,7 +122,7 @@ body {
 					<div class="form-group">
 						<label class="col-sm-4 control-label" >学生学号</label>
 						<div class="col-sm-6">
-							<input class="form-control" type="text" name = "stuNo" placeholder="请输入学生学号">
+							<input class="form-control" type="number" name = "stuNo" placeholder="请输入学生学号">
 						</div>
 					</div>
 					<div class="form-group">
@@ -132,7 +132,7 @@ body {
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label" for="teaSex">性别</label>
+						<label class="col-sm-4 control-label" >性别</label>
 						<div class="col-sm-6">
 							<select class="selectpicker" name="stuSex" style="width:100%">
 								<option value="1">男</option>
@@ -149,13 +149,13 @@ body {
 					<div class="form-group">
 						<label class="col-sm-4 control-label">联系电话</label>
 						<div class="col-sm-6">
-							<input class="form-control" type="text" name = "phone" placeholder="请输入联系电话">
+							<input class="form-control" type="number" name = "phone" placeholder="请输入联系电话">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">邮箱</label>
 						<div class="col-sm-6">
-							<input class="form-control" type="text" name = "mailBox" placeholder="请输入邮箱">
+							<input class="form-control" type="email" name = "mailBox" placeholder="请输入邮箱">
 						</div>
 					</div>
 					<div class="form-group">

@@ -75,11 +75,11 @@ body {
 				<!-- toolbar开始 -->
 				<div id="toolbar" class="btn-toolbar" role="toolbar">
 					<button id="add_btn" type="button" class="btn  btn-success btn-md" onclick = "operation.addWindow()">
-						<span class="glyphicon glyphicon-plus"></span> 新增
+						<span class="glyphicon glyphicon-plus"></span>添加
 					</button>
-					<button id="edit_btn" type="button" class="btn  btn-info  btn_md" onclick="operation.editWindow()">
+					<%--<button id="edit_btn" type="button" class="btn  btn-info  btn_md" onclick="operation.editWindow()">
 						<span class="glyphicon glyphicon-edit"></span> 编辑
-					</button>
+					</button>--%>
 					<button id="delete_btn" type="button" class="btn  btn-danger btn-md" onclick="operation.deleteFrom()">
 						<span class="glyphicon glyphicon-minus"></span> 删除
 					</button>
@@ -145,7 +145,7 @@ body {
 			<!-- modal-body 结束 -->
 			<div class="modal-footer">
 				<button id="add_save_btn" type="button" class="btn btn_success" onclick = "operation.addForm()">
-					<span class="glyphicon glyphicon-ok"></span>通知
+					<span class="glyphicon glyphicon-ok"></span>发布
 				</button>
 				<button id="edit_save_btn" type="button" class="btn btn_info" onclick = "operation.editForm()">
 					<span class="glyphicon glyphicon-ok"></span>保存
@@ -172,60 +172,66 @@ var operation={
 	},
 	//弹出添加页面
 	addWindow:function(){
-		$('#setModal').modal('show');
-		formObj.setBtnIsShow("add_save_btn","edit_save_btn",1);
-
+		if(parseInt("${user.role}") != 1) {
+			$('#setModal').modal('show');
+			formObj.setBtnIsShow("add_save_btn", "edit_save_btn", 1);
+		}else{
+			message.alert("您没有通知权限");
+			return;
+		}
 	},
 	//添加表单
 	addForm:function(){
-		$("#setForm").bootstrapValidator('validate');
-		if($("#setForm").data("bootstrapValidator").isValid()){
-			var temp = getFormJson("setForm");
-			$.post("notice/insertNotice", temp ,function(data) {
-				var obj = eval('('+data+')');
-				$("#dg").bootstrapTable("refresh");
-				message.alert(obj.showInfo);
-				$('#setForm').data('bootstrapValidator').resetForm();
-				$('#setForm')[0].reset();
-				$('#setModal').modal('hide');
-			});
-		}
-		
+
+			$("#setForm").bootstrapValidator('validate');
+			if ($("#setForm").data("bootstrapValidator").isValid()) {
+				var temp = getFormJson("setForm");
+				$.post("notice/insertNotice", temp, function (data) {
+					var obj = eval('(' + data + ')');
+					$("#dg").bootstrapTable("refresh");
+					message.alert(obj.showInfo);
+					$('#setForm').data('bootstrapValidator').resetForm();
+					$('#setForm')[0].reset();
+					$('#setModal').modal('hide');
+				});
+			}
+
+
 	},
 	//弹出修改页面
 	editWindow:function(){
-		var rows = $('#dg').bootstrapTable('getSelections');
-		if(rows.length == 1  ){
-			setForm("#setForm",rows[0]);
-			$('#setModal').modal('show');
-			formObj.setBtnIsShow("add_save_btn","edit_save_btn",0);
-			
-		}else{
-			message.alert("请选择一条要修改的数据！");
-			return;
-		}
+			var rows = $('#dg').bootstrapTable('getSelections');
+			if (rows.length == 1) {
+				setForm("#setForm", rows[0]);
+				$('#setModal').modal('show');
+				formObj.setBtnIsShow("add_save_btn", "edit_save_btn", 0);
+
+			} else {
+				message.alert("请选择一条要修改的数据！");
+				return;
+			}
 		
 	},
 	//修改表单
 	editForm:function(){
-		var validate = $("#setForm").bootstrapValidator('validate');
-		if($("#setForm").data("bootstrapValidator").isValid()){
-			var temp = getFormJson("setForm");
-			$.post("notice/updateNotice", temp ,function(data) {
-				var obj = eval('('+data+')');
-				$("#dg").bootstrapTable("refresh");
-				message.alert(obj.showInfo);
-				$('#setForm').data('bootstrapValidator').resetForm(true);
-				$('#setForm')[0].reset();
-				$('#setModal').modal('hide');
-			});
-		}
-		
+			var validate = $("#setForm").bootstrapValidator('validate');
+			if ($("#setForm").data("bootstrapValidator").isValid()) {
+				var temp = getFormJson("setForm");
+				$.post("notice/updateNotice", temp, function (data) {
+					var obj = eval('(' + data + ')');
+					$("#dg").bootstrapTable("refresh");
+					message.alert(obj.showInfo);
+					$('#setForm').data('bootstrapValidator').resetForm(true);
+					$('#setForm')[0].reset();
+					$('#setModal').modal('hide');
+				});
+			}
 	},
 	//删除表单
 	deleteFrom:function(){
 		var rows = $("#dg").bootstrapTable("getSelections");
-		if(rows.length == 1  ){
+		if(parseInt("${user.role}")==3){
+		if(rows.length == 1 ){
 			bootbox.confirm({
 				size:"small",
 				title:"提示",
@@ -245,6 +251,10 @@ var operation={
 			
 		}else{
 			message.alert("请选择一条要删除的数据！");
+			return;
+		}
+		}else{
+			message.alert("您没有删除权限");
 			return;
 		}
 		
